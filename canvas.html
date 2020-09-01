@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Snake Game</title>
+</head>
+<body>
+
+    <div style="max-width: 600px;width: 100%;margin:auto;">
+        <canvas id="canvas" width="600" height="600" style="background: #eee; border:1px solid #ccc;margin:auto;" ></canvas>
+    </div>
+    
+    <script>
+
+
+var abc ={
+name : 'Ritesh',
+lastname : 'Narang',
+
+ get getFullname() {
+    return `My Full Name is ${abc.name} ${abc.lastname}`
+}
+
+
+}
+
+abc.getFullname = 'Hritik Rohan';
+
+console.log(abc.getFullname)
+
+        window.onload = function(){
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext('2d');
+        var ctxCircle = canvas.getContext('2d');
+
+
+
+
+        
+
+
+
+        /*GRID FUNCTION STARTS*/
+        function grid(width,height,gap){
+            this.width =width;
+            this.height = height;
+            this.gap = gap;
+        }
+        grid.prototype.verticalLineDraw = function(){
+            for(var i=1; i<this.height/this.gap;i++){
+                ctx.moveTo(0,this.gap*i);
+                ctx.lineTo(600,this.gap*i);
+            }
+                ctx.stroke();
+        }
+        grid.prototype.horizontalLineDraw = function(){
+            for(var h=1; h<this.height/this.gap;h++){
+                ctx.moveTo(this.gap*h, 0);
+                ctx.lineTo(this.gap*h,600);
+            }
+            ctx.stroke();
+        }
+        const gridInstance = new grid(600,600,30);
+        gridInstance.verticalLineDraw();
+        gridInstance.horizontalLineDraw();
+        /*GRID FUNCTION ENDS*/
+
+
+
+        /*CIRCLE ANIMATION STARTS*/
+        function circleAnimation(x,y,radius,speed){
+            this.x= x;
+            this.y = y;
+            this.radius = radius;            
+            this.speed = speed; 
+            
+        }
+
+          //USE OF BIND(THIS)
+
+          circleAnimation.prototype.drawCircle = function(){
+            requestAnimationFrame(this.drawCircle.bind(this));
+            //ctxCircle.clearRect(0,0,600,600);
+            ctxCircle.beginPath();
+            ctxCircle.rect(this.x,this.y,25,25);
+            ctxCircle.fill();
+            ctxCircle.closePath();
+            if(this.x+this.radius > 600 || this.x + this.radius < 0){
+                this.speed = -this.speed;
+            }
+            this.x +=this.speed;
+        }  
+
+        const createCircle = new circleAnimation(300,300,25,4);
+        createCircle.drawCircle();
+       
+        /*CIRCLE ANIMATION ENDS*/
+        
+
+      
+    }
+
+
+    </script>
+</body>
+</html>
